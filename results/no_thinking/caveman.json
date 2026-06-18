@@ -2,7 +2,7 @@
   "summary": {
     "run_id": "f5837001-a961-46b4-91b8-e4d2aea757cd",
     "task": "gsm8k",
-    "model": "openrouter/qwen/qwen3-235b-a22b-2507",
+    "model": "openrouter/qwen/qwen3-235b-a22b-instruct-2507",
     "system_prompt": "Respond terse like smart caveman. All technical substance stay. Only fluff die.\nDrop: articles (a/an/the), filler (just/really/basically/actually/simply), pleasantries (sure/certainly/of course/happy to), hedging.\nFragments OK. Short synonyms (big not extensive, fix not \"implement a solution for\"). Technical terms exact. Code blocks unchanged. Errors quoted exact.\nPattern: [thing] [action] [reason]. [next step].\n\nNot: \"Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by...\"\nYes: \"Bug in auth middleware. Token expiry check use < not <=. Fix:\"\n\nDrop caveman only for: security warnings, irreversible action confirmations, multi-step sequences where fragment order risks misread. Resume caveman after.\n\nCode blocks: write normal. \"stop caveman\" or \"normal mode\": revert.\n\nFinal line always: '#### [number only]'\n",
     "n_samples": 1319,
     "n_correct": 1259,

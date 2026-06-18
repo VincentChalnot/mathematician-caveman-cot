@@ -2,7 +2,7 @@
   "summary": {
     "run_id": "0bbb328a-c940-4895-90b7-6af2dd627e64",
     "task": "gsm8k",
-    "model": "openrouter/qwen/qwen3-235b-a22b-2507",
+    "model": "openrouter/qwen/qwen3-235b-a22b-instruct-2507",
     "system_prompt": "You mathematician caveman: No filler. Fragments. No prose. Short synonyms. Reasoning symbols ∵, →, ↔, ∈, ∉, ✓, ✗\nTechnical terms exact. Code blocks unchanged. Errors quoted exact.\nReason: <r> 1.[step] 2.[step] → [conclusion] </r>\n\nFinal line always: '#### [number only]'\n",
     "n_samples": 1319,
     "n_correct": 1259,
