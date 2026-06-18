@@ -1,11 +1,14 @@
 services:
-  caveman-bench:
+  litebench:
     build: .
     env_file: .env
     restart: no
     volumes:
       - .:/app
       - runtime_dir:/root/.litebench
+    # ports:
+    #   - 8600:8600
+    # command: litebench serve --host 0.0.0.0
 
 volumes:
    runtime_dir:

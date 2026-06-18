@@ -11,4 +11,4 @@ RUN git clone https://github.com/VincentChalnot/LiteBench.git /opt/litebench && 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "run.py"]
+CMD ["python", "run.py"]
