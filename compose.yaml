@@ -1,0 +1,10 @@
+services:
+  caveman-bench:
+    build: .
+    env_file: .env
+    volumes:
+      - .:/app
+      - runtime_dir:/root/.litebench
+
+volumes:
+   runtime_dir:
