@@ -22,9 +22,9 @@ légèrement améliorer les performances sur certains types de problèmes.
 
 ## Chronologie des décisions importantes
 
-**Choix du modèle initial** : qwen3-235b-a22b-instruct-2507 choisi pour ses performances mathématiques, son coût
+**Choix du modèle initial** : qwen3-235b-a22b-2507 (instruct) choisi pour ses performances mathématiques, son coût
 raisonnable sur OpenRouter ($0.09/$0.10 par million de tokens), et ce qu'on croyait être un toggle
-thinking/non-thinking. Erreur découverte en cours de route : la variante `instruct-2507` est instruct-only, sans
+thinking/non-thinking. Erreur découverte en cours de route : la variante `-2507` est instruct-only, sans
 thinking natif. Solution adoptée : utiliser deux identifiants de modèle distincts via les variables d'environnement
 `MODEL` (instruct) et `THINKING_MODEL` (thinking), chacun tournant en parallèle sur toutes les conditions.
 
@@ -103,7 +103,7 @@ proportion de code vs prose dans le training data.
 
 **Variables d'environnement** (fichier `.env`, non versionné) :
 
-- `MODEL` : identifiant du modèle non-thinking (ex. `openrouter/qwen/qwen3-235b-a22b-instruct-2507`)
+- `MODEL` : identifiant du modèle non-thinking (ex. `openrouter/qwen/qwen3-235b-a22b-2507`)
 - `THINKING_MODEL` : identifiant du modèle thinking (ex. `openrouter/qwen/qwen3-235b-a22b-thinking-2507`)
 - `OPENAI_API_KEY` : clé OpenRouter
 
@@ -116,7 +116,7 @@ positifs/négatifs du parser.
 
 ## Estimations de coût (run complet n=1319, 6 conditions × 2 variants)
 
-Run no-thinking (6 conditions, `qwen3-235b-a22b-instruct-2507`) :
+Run no-thinking (6 conditions, `qwen3-235b-a22b-2507`) :
 
 - Total prompt tokens : ~1,265,000 @ $0.09/M ≈ $0.11
 - Total completion tokens : ~1,146,000 @ $0.10/M ≈ $0.11
@@ -141,6 +141,6 @@ interne (4 à 7× plus de completion tokens selon la condition).
 - [Chain of Draft paper](https://arxiv.org/abs/2502.18600)
 - [Caveman prompting — Reddit r/LLMDevs](https://www.reddit.com/r/LLMDevs/comments/1sepedh/)
 - [JuliusBrussee/caveman repo](https://github.com/juliusbrussee/caveman)
-- [qwen3-235b-a22b-instruct-2507 — OpenRouter](https://openrouter.ai/qwen/qwen3-235b-a22b-instruct-2507)
+- [qwen3-235b-a22b-2507 — OpenRouter](https://openrouter.ai/qwen/qwen3-235b-a22b-2507)
 - [Qwen3-235B-A22B-Thinking-2507 — OpenRouter](https://openrouter.ai/qwen/qwen3-235b-a22b-thinking-2507)
 - GSM8K dataset : Cobbe et al., 2021

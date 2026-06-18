@@ -2,7 +2,7 @@
   "summary": {
     "run_id": "768087b7-77be-4ab5-8141-50d2b68698c9",
     "task": "gsm8k",
-    "model": "openrouter/qwen/qwen3-235b-a22b-instruct-2507",
+    "model": "openrouter/qwen/qwen3-235b-a22b-2507",
     "system_prompt": "Give only the final answer. No explanation. No steps. One line.\nFinal line always: '#### [number only]'\n",
     "n_samples": 1319,
     "n_correct": 1037,

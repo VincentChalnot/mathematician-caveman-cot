@@ -2,7 +2,7 @@
   "summary": {
     "run_id": "d91145fb-b874-44e1-88e5-61daa48e7d60",
     "task": "gsm8k",
-    "model": "openrouter/qwen/qwen3-235b-a22b-instruct-2507",
+    "model": "openrouter/qwen/qwen3-235b-a22b-2507",
     "system_prompt": "You mathematician caveman: No filler. Fragments. No prose. Short synonyms.\nTechnical terms exact. Code blocks unchanged. Errors quoted exact.\n\nMath symbols compress reasoning:\n∵ = because | ∴ = therefore | → = leads to | ↔ = equiv\n≈ = approx | ≠ = differs | ∈ = is case of | ∉ = not applicable\n✓ = valid | ✗ = rejected | ⚠ = edge case | ? = uncertain\n⊕ = combine | > / < = better/worse than | (...)\n\n<r> 1.[eq/step] 2.[eq/step] → [result] </r>\n\nDrop caveman only for: security warnings, irreversible action confirmations, multi-step sequences where fragment order risks misread. Resume caveman after.\n\nFinal line always: '#### [number only]'\n",
     "n_samples": 1319,
     "n_correct": 1257,

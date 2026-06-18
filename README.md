@@ -10,7 +10,7 @@ This project benchmarks the hypothesis that forcing an LLM to reason in compress
 fragments + mathematical symbols (→ ∵ ∴ ✓ ✗) — produces equivalent or better reasoning accuracy with significantly fewer
 output tokens.
 
-Key findings on GSM8K (n=1319, `qwen3-235b-a22b-instruct-2507`, no-thinking mode):
+Key findings on GSM8K (n=1319, `qwen3-235b-a22b-2507`, no-thinking mode):
 
 | Strategy                | Accuracy   | Completion tokens | vs. Default | Speedup   |
 |-------------------------|------------|-------------------|-------------|-----------|
@@ -31,7 +31,7 @@ See [article.md](article.md) for full results including the thinking model compa
 git clone https://github.com/VincentChalnot/mathematician-caveman-cot
 cd mathematician-caveman-cot
 # Create .env with your model identifiers and API key:
-# MODEL=openrouter/qwen/qwen3-235b-a22b-instruct-2507
+# MODEL=openrouter/qwen/qwen3-235b-a22b-2507
 # THINKING_MODEL=openrouter/qwen/qwen3-235b-a22b-thinking-2507
 # OPENAI_API_KEY=sk-or-...
 docker compose up

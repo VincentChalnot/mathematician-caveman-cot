@@ -2,7 +2,7 @@
   "summary": {
     "run_id": "254881a7-e174-40e4-b4b7-74e5a469c916",
     "task": "gsm8k",
-    "model": "openrouter/qwen/qwen3-235b-a22b-instruct-2507",
+    "model": "openrouter/qwen/qwen3-235b-a22b-2507",
     "system_prompt": "\nFinal line always: '#### [number only]'\n",
     "n_samples": 1319,
     "n_correct": 1251,

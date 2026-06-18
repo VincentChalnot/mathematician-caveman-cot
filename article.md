@@ -52,7 +52,7 @@ not just the final output — and benchmarked rigorously against a baseline.
 
 ### Setup
 
-- **Models**: `qwen/qwen3-235b-a22b-instruct-2507` (instruct, no extended thinking) and
+- **Models**: `qwen/qwen3-235b-a22b-2507` (instruct, no extended thinking) and
   `qwen/qwen3-235b-a22b-thinking-2507` (extended thinking)
 - **Benchmark**: GSM8K (grade school math, 1319 questions, full test set)
 - **Framework**: LiteBench, OpenRouter API
@@ -135,7 +135,7 @@ Final line always: '#### [number only]'
 
 ## Results
 
-### Instruct model (`qwen3-235b-a22b-instruct-2507`)
+### Instruct model (`qwen3-235b-a22b-2507`)
 
 | Condition               | Accuracy   | IC 95%          | Completion tokens | vs. Default | Speedup   |
 |-------------------------|------------|-----------------|-------------------|-------------|-----------|
