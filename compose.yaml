@@ -2,6 +2,7 @@ services:
   caveman-bench:
     build: .
     env_file: .env
+    restart: no
     volumes:
       - .:/app
       - runtime_dir:/root/.litebench
