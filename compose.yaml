@@ -2,6 +2,9 @@ services:
   litebench:
     build: .
     env_file: .env
+    environment:
+      - MODEL=openrouter/qwen/qwen3-235b-a22b-2507
+      - THINKING_MODEL=openrouter/qwen/qwen3-235b-a22b-thinking-2507
     restart: no
     volumes:
       - .:/app

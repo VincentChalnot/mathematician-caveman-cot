@@ -33,7 +33,7 @@ thinking natif. Solution adoptée : utiliser deux identifiants de modèle distin
 du nombre. Solution : imposer `Final line always: '#### [number only]'` via le champ `gsm8k_prompt` global, appendé à
 tous les prompts. Leçon : vérifier manuellement les premiers résultats avant de lancer des runs complets.
 
-**Choix de la taille de sample** : n=20 → n=30 → n=1319 (full GSM8K). Les runs intermédiaires sur n=30 ont des IC trop
+**Choix de la taille de sample** : n=20 → n=30 → n=1319 (full GSM8K), score recalculé sur n=1209 après filtrage GSM8K Platinum. Les runs intermédiaires sur n=30 ont des IC trop
 larges (±6pp) pour être interprétables. Pour les benchmarks de code, partir directement sur n=164 (HumanEval) ou n≥200 (
 LiveCodeBench).
 
@@ -43,29 +43,29 @@ moins est plus**.
 
 ***
 
-## Les résultats du modèle thinking (n=1319, run complet)
+## Les résultats du modèle thinking (n=1209, run platinum complet)
 
 Les résultats préliminaires à n=30 avaient conclu que le thinking natif sans prompt était la meilleure configuration et
 que chaque prompt CoT ajouté dégradait l'accuracy. **Ces conclusions sont fausses** — elles étaient un artefact de la
 variance à petit n (IC ±6pp).
 
-Résultats réels n=1319 sur `qwen3-235b-a22b-thinking-2507` :
+Résultats réels n=1209 sur `qwen3-235b-a22b-thinking-2507` :
 
-| Condition               | No-thinking | Thinking   | Δ           |
-|-------------------------|-------------|------------|-------------|
-| No Prompt               | 94.84%      | **83.70%** | −11.1pp ↓↓↓ |
-| Default CoT             | 95.07%      | 88.40%     | −6.7pp ↓    |
-| Caveman                 | 95.45%      | 86.66%     | −8.8pp ↓↓   |
-| Math Caveman            | 95.30%      | 93.71%     | −1.6pp      |
-| Minimalist Math Caveman | **95.45%**  | **94.54%** | −0.9pp      |
-| One-Shot                | 78.62%      | **94.47%** | +15.9pp ↑↑↑ |
+| Condition               | No-thinking | Thinking   | Δ             |
+|-------------------------|-------------|------------|---------------|
+| No Prompt               | 97.93%      | **87.59%** | −10.3pp ↓↓↓  |
+| Default CoT             | 97.77%      | 91.81%     | −6.0pp ↓     |
+| Caveman                 | 97.77%      | 89.83%     | −7.9pp ↓↓    |
+| Math Caveman            | 97.60%      | 97.02%     | −0.6pp        |
+| Minimalist Math Caveman | **98.43%**  | **97.77%** | −0.7pp        |
+| One-Shot                | 80.65%      | **97.85%** | +17.2pp ↑↑↑  |
 
 Interprétation révisée : Les prompts CoT verbeux (Default, Caveman) dégradent bien le modèle thinking — la conclusion de
 n=30 était juste sur ce point. Mais les prompts minimaux (One-Shot, Minimalist Math Caveman) préservent presque
-entièrement les performances. Et surtout : **l'absence totale de prompt système est le pire résultat** (83.70%),
+entièrement les performances. Et surtout : **l'absence totale de prompt système est le pire résultat** (87.59%),
 résultat surprenant — le modèle thinking sans aucune instruction de cadrage sur la tâche dérive significativement. Le
-One-Shot, qui est catastrophique pour le modèle non-thinking (78.62%), devient l'un des meilleures configurations pour
-le thinking (94.47%).
+One-Shot, qui est catastrophique pour le modèle non-thinking (80.65%), devient le **meilleur résultat** pour le
+thinking (97.85%).
 
 Pour la ligne directrice : sur les modèles thinking, éviter les instructions CoT structurées, préférer un cadrage
 minimal de la tâche.
@@ -78,9 +78,9 @@ minimal de la tâche.
 hypothèse forte) ou simplement sa projection en tokens (hypothèse faible) ? Les benchmarks ne permettent pas de
 trancher. Nécessiterait une analyse d'activation ou des expériences d'interpretabilité mécaniste.
 
-**Threshold de compression** : math-caveman (−54% tokens) et caveman (−61% tokens) sont statistiquement équivalents à
-default (IC superposés). Où est la falaise ? Les résultats la localisent précisément : entre caveman à −61% (95.45%
-accuracy) et one-shot à −72% (78.62% accuracy) — une chute de 16.8pp pour 10.6pp de tokens en moins supplémentaires. La
+**Threshold de compression** : math-caveman (−54% tokens) et caveman (−60% tokens) sont statistiquement équivalents à
+default (IC superposés). Où est la falaise ? Les résultats la localisent précisément : entre caveman à −60% (97.77%
+accuracy) et one-shot à −72% (80.65% accuracy) — une chute de 17.1pp pour 11.8pp de tokens en moins supplémentaires. La
 falaise est abrupte et se situe autour de −65% à −70% de tokens de complétion.
 
 **Généralisation** : GSM8K = arithmétique scolaire. Le raisonnement sur du code est structurellement différent (parcours
@@ -114,21 +114,21 @@ positifs/négatifs du parser.
 
 ***
 
-## Estimations de coût (run complet n=1319, 6 conditions × 2 variants)
+## Estimations de coût (run platinum n=1209, 6 conditions × 2 variants)
 
 Run no-thinking (6 conditions, `qwen3-235b-a22b-2507`) :
 
-- Total prompt tokens : ~1,265,000 @ $0.09/M ≈ $0.11
-- Total completion tokens : ~1,146,000 @ $0.10/M ≈ $0.11
-- **Total no-thinking : ~$0.23**
+- Total prompt tokens : ~1,157,000 @ $0.09/M ≈ $0.10
+- Total completion tokens : ~993,000 @ $0.10/M ≈ $0.10
+- **Total no-thinking : ~$0.20**
 
 Run thinking (6 conditions, `qwen3-235b-a22b-thinking-2507`) :
 
-- Total prompt tokens : ~1,271,000 @ $0.09/M ≈ $0.11
-- Total completion tokens (incl. thinking) : ~5,128,000 @ $0.10/M ≈ $0.51
-- **Total thinking : ~$0.63**
+- Total prompt tokens : ~1,162,000 @ $0.09/M ≈ $0.10
+- Total completion tokens (incl. thinking) : ~4,390,000 @ $0.10/M ≈ $0.44
+- **Total thinking : ~$0.54**
 
-**Total benchmark complet : ~$0.86**
+**Total benchmark complet : ~$0.75**
 
 Le thinking est ~2.7× plus cher que le no-thinking, principalement en raison du volume de tokens de raisonnement
 interne (4 à 7× plus de completion tokens selon la condition).

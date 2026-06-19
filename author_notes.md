@@ -1,8 +1,8 @@
 # 📝 NOTES D'AUTEUR — Points d'attention pour la version finale
 
-**[À VÉRIFIER AVANT PUBLICATION]** — Le problème gsm8k-12 (arbre à citrons, target=13) échoue sur TOUTES les conditions
-sauf caveman-CoT. C'est peut-être une question mal formulée dans le dataset ou un problème d'arrondi ambigu. Vérifier
-manuellement et mentionner si c'est une anomalie du benchmark.
+**[RÉSOLU — GSM8K Platinum]** — Le problème gsm8k-12 (arbre à citrons, target=13) échoue sur TOUTES les conditions
+sauf caveman-CoT. Ce problème a été identifié comme défectueux dans GSM8K Platinum (madrylab/gsm8k-platinum) et est
+maintenant marqué `redacted: true` dans tous les fichiers de résultats. Il est exclu du calcul du score.
 
 **[SECTION À AJOUTER]** — Résultats LiveCodeBench / HumanEval+ une fois disponibles. C'est le vrai test de
 généralisation.

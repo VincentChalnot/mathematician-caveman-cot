@@ -53,7 +53,7 @@ not just the final output — and benchmarked rigorously against a baseline.
 
 - **Models**: `qwen/qwen3-235b-a22b-2507` (instruct, no extended thinking) and
   `qwen/qwen3-235b-a22b-thinking-2507` (extended thinking)
-- **Benchmark**: GSM8K (grade school math, 1319 questions, full test set)
+- **Benchmark**: GSM8K Platinum (`madrylab/gsm8k-platinum`, 1209 questions — annotation errors corrected, ambiguous problems removed)
 - **Framework**: LiteBench, OpenRouter API
 - **Conditions**: 6 system prompt variants, each run on both model variants
 
@@ -138,32 +138,32 @@ Final line always: '#### [number only]'
 
 | Condition               | Accuracy   | IC 95%          | Completion tokens | vs. Default | Speedup   |
 |-------------------------|------------|-----------------|-------------------|-------------|-----------|
-| Default CoT             | 95.07%     | [93.8–96.1]     | 299,405           | —           | ×1        |
-| No Prompt               | 94.84%     | [93.5–95.9]     | 292,249           | −2.4%       | ×1.04     |
-| Minimalist Math Caveman | **95.75%** | [94.5–96.7]     | 213,108           | −28.8%      | ×1.37     |
-| Math Caveman            | 95.30%     | [94.0–96.3]     | 136,631           | −54.4%      | ×2.09     |
-| **Caveman**             | **95.45%** | **[94.2–96.4]** | **117,104**       | **−60.9%**  | **×2.03** |
-| One-Shot (↯)            | 78.62%     | [76.3–80.7]     | 85,276            | −71.5%      | —         |
+| Default CoT             | 97.77%     | [96.8–98.5]     | 259,151           | —           | ×1        |
+| No Prompt               | 97.93%     | [97.0–98.6]     | 249,193           | −3.8%       | ×1.06     |
+| Minimalist Math Caveman | **98.43%** | [97.6–99.0]     | 187,606           | −27.6%      | ×1.32     |
+| Math Caveman            | 97.60%     | [96.6–98.3]     | 120,022           | −53.7%      | ×2.01     |
+| **Caveman**             | **97.77%** | **[96.8–98.5]** | **103,721**       | **−60.0%**  | **×1.96** |
+| One-Shot (↯)            | 80.65%     | [78.3–82.8]     | 72,954            | −71.8%      | —         |
 
 *Confidence intervals: Wilson method, z=1.96. Speedup based on mean per-request latency.*
 
 ### Key findings
 
-**1. Caveman and Minimalist Math Caveman preserve — and marginally improve — accuracy** (95.45% and 95.75% respectively,
-vs. 95.07% for Default). All three caveman variants fall within overlapping CIs of Default, meaning accuracy is
-statistically
-preserved, not degraded.
+**1. Minimalist Math Caveman marginally improves accuracy; Caveman ties Default.** Minimalist Math Caveman reaches 98.43%
+vs. 97.77% for Default. Caveman matches Default exactly (also 97.77%). All three caveman variants fall within
+overlapping CIs of Default, meaning accuracy is statistically preserved, not degraded.
 
-**2. Token efficiency is large and real.** Caveman uses 60.9% fewer completion tokens than Default at equivalent
-accuracy. Math Caveman uses 54.4% fewer. These are deterministic counts, unaffected by sampling variance.
+**2. Token efficiency is large and real.** Caveman uses 60.0% fewer completion tokens than Default at equivalent
+accuracy. Math Caveman uses 53.7% fewer. These are deterministic counts, unaffected by sampling variance.
 
 **3. The efficiency curve is monotonic up to a hard drop.** From Default to Minimalist Math Caveman to Math Caveman to
 Caveman, each step reduces tokens while maintaining accuracy. One-Shot is not a further point on this continuum — it
-removes reasoning entirely, a qualitatively different intervention. The result is a 10.6pp additional token reduction
-(−61% → −72%) that causes a 16.8pp accuracy drop (95.45% → 78.62%). Two distinct regimes, separated by a sharp boundary.
+removes reasoning entirely, a qualitatively different intervention. The result is an 11.8pp additional token reduction
+(−60% → −72%) that causes a 17.1pp accuracy drop (97.77% → 80.65%). Two distinct regimes, separated by a sharp boundary.
 
-**4. No Prompt ≈ Default in accuracy, but with no token savings.** Removing the CoT instruction costs nothing in
-accuracy but also gains nothing in efficiency — the model produces nearly the same token volume regardless.
+**4. No Prompt ≈ Default in accuracy, with negligible token savings.** Removing the CoT instruction costs nothing in
+accuracy but also gains almost nothing in efficiency — the model produces nearly the same token volume regardless (3.8%
+fewer, vs. 60% for Caveman).
 
 ***
 
@@ -198,33 +198,33 @@ interpretability work.
 ## The Thinking Model Results
 
 The instruct results raise a natural question: does the same logic hold when the model has its own built-in reasoning
-process? The same 6 conditions were run on `qwen3-235b-a22b-thinking-2507` (n=1319, full dataset):
+process? The same 6 conditions were run on `qwen3-235b-a22b-thinking-2507` (n=1209, full platinum dataset):
 
-| Condition               | No-thinking | IC 95%      | Thinking   | IC 95%          |
-|-------------------------|-------------|-------------|------------|-----------------|
-| No Prompt               | 94.84%      | [93.5–95.9] | 83.70%     | [81.6–85.6] ↓↓↓ |
-| Default CoT             | 95.07%      | [93.8–96.1] | 88.40%     | [86.6–90.0] ↓   |
-| Caveman                 | 95.45%      | [94.2–96.4] | 86.66%     | [84.7–88.4] ↓↓  |
-| Math Caveman            | 95.30%      | [94.0–96.3] | **93.71%** | [92.3–94.9]     |
-| Minimalist Math Caveman | **95.75%**  | [94.5–96.7] | **94.54%** | [93.2–95.6]     |
-| One-Shot                | 78.62%      | [76.3–80.7] | **94.47%** | [93.1–95.6] ↑↑↑ |
+| Condition               | No-thinking | IC 95%          | Thinking   | IC 95%          |
+|-------------------------|-------------|-----------------|------------|-----------------|
+| No Prompt               | 97.93%      | [97.0–98.6]     | 87.59%     | [85.6–89.3] ↓↓↓ |
+| Default CoT             | 97.77%      | [96.8–98.5]     | 91.81%     | [90.1–93.2] ↓   |
+| Caveman                 | 97.77%      | [96.8–98.5]     | 89.83%     | [88.0–91.4] ↓↓  |
+| Math Caveman            | 97.60%      | [96.6–98.3]     | **97.02%** | [95.9–97.8]     |
+| Minimalist Math Caveman | **98.43%**  | [97.6–99.0]     | **97.77%** | [96.8–98.5]     |
+| One-Shot                | 80.65%      | [78.3–82.8]     | **97.85%** | [96.9–98.5] ↑↑↑ |
 
 Several results stand out:
 
-**Verbose CoT prompts significantly degrade the thinking model.** Default CoT drops 6.7pp. Classic Caveman — the most
-instruction-heavy prompt — drops 8.8pp. This is consistent with the hypothesis that the thinking model has already
+**Verbose CoT prompts significantly degrade the thinking model.** Default CoT drops 6.0pp. Classic Caveman — the most
+instruction-heavy prompt — drops 7.9pp. This is consistent with the hypothesis that the thinking model has already
 internalized a reasoning structure during training; external CoT instructions create competing signals.
 
-**Minimalist prompts preserve thinking model performance.** Math Caveman (93.71%) and Minimalist Math Caveman (94.54%)
-are near-parity with the no-thinking best (95.75%). The gap between thinking and no-thinking effectively closes when the
+**Minimalist prompts preserve thinking model performance.** Math Caveman (97.02%) and Minimalist Math Caveman (97.77%)
+are near-parity with the no-thinking best (98.43%). The gap between thinking and no-thinking effectively closes when the
 reasoning instruction is compact.
 
-**No prompt at all is the worst configuration for the thinking model** (83.70%), despite being close to default for the
+**No prompt at all is the worst configuration for the thinking model** (87.59%), despite being close to default for the
 instruct model. Without any task framing, the thinking model appears to drift — the absence of even a minimal system
 prompt is more disruptive for the thinking variant than for the instruct variant.
 
-**One-Shot inverts completely**: catastrophically bad for the instruct model (78.62%) but one of the best results for
-the thinking model (94.47%). The thinking model's internal reasoning compensates for the absence of explicit
+**One-Shot inverts completely**: catastrophically bad for the instruct model (80.65%) but the best result for the
+thinking model (97.85%). The thinking model's internal reasoning compensates for the absence of explicit
 chain-of-thought instructions, making brevity an asset rather than a liability.
 
 ***
@@ -234,9 +234,9 @@ chain-of-thought instructions, making brevity an asset rather than a liability.
 - GSM8K is an arithmetic reasoning benchmark. Results may not generalize to code generation, logical reasoning, or
   open-ended tasks. Code benchmarks (LiveCodeBench, HumanEval+) are the natural next step.
 - OpenRouter routes requests across multiple providers. Non-determinism is observed between runs due to provider-level
-  sampling differences. n=1319 is sufficient to make provider variance negligible relative to condition differences, but
+  sampling differences. n=1209 is sufficient to make provider variance negligible relative to condition differences, but
   results should be interpreted within Wilson CIs.
-- n=1319 is a single run per condition. Multi-run averaging would further strengthen the conclusions.
+- n=1209 is a single run per condition. Multi-run averaging would further strengthen the conclusions.
 - We test one model family. Generalization to other architectures (DeepSeek, Llama, Mistral) is untested.
 
 ***
@@ -244,6 +244,6 @@ chain-of-thought instructions, making brevity an asset rather than a liability.
 ## Conclusion
 
 For arithmetic-style reasoning tasks: a caveman or minimalist math caveman prompt on a non-thinking instruct model
-offers the best cost-performance tradeoff — equivalent accuracy to standard CoT with 55–61% fewer tokens and ~2× lower
+offers the best cost-performance tradeoff — equivalent accuracy to standard CoT with 54–60% fewer tokens and ~2× lower
 latency. For thinking models, avoid detailed reasoning instructions and prefer concise task framing. Having no system
 prompt at all is the worst configuration for both efficiency and performance.

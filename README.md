@@ -2,7 +2,7 @@
 
 > why use many token when few token do trick
 
-A benchmark testing compressed chain-of-thought prompting strategies against standard and thinking LLM modes on GSM8K.
+A benchmark testing compressed chain-of-thought prompting strategies against standard and thinking LLM modes on GSM8K Platinum.
 
 ## What is this?
 
@@ -10,18 +10,18 @@ This project benchmarks the hypothesis that forcing an LLM to reason in compress
 fragments + mathematical symbols (→ ∵ ∴ ✓ ✗) — produces equivalent or better reasoning accuracy with significantly fewer
 output tokens.
 
-Key findings on GSM8K (n=1319, `qwen3-235b-a22b-2507`, no-thinking mode):
+Key findings on GSM8K Platinum (n=1209, `qwen3-235b-a22b-2507`, no-thinking mode):
 
 | Strategy                | Accuracy   | Completion tokens | vs. Default | Speedup   |
 |-------------------------|------------|-------------------|-------------|-----------|
-| Default CoT             | 95.07%     | 299,405           | —           | ×1        |
-| No Prompt               | 94.84%     | 292,249           | −2.4%       | ×1.04     |
-| Minimalist Math Caveman | **95.45%** | 215,689           | −28.0%      | ×1.33     |
-| Math Caveman            | 95.30%     | 136,631           | −54.4%      | ×2.09     |
-| **Caveman**             | **95.45%** | **117,104**       | **−60.9%**  | **×2.03** |
-| One-Shot (↯ cliff)      | 78.62%     | 85,276            | −71.5%      | —         |
+| Default CoT             | 97.77%     | 259,151           | —           | ×1        |
+| No Prompt               | 97.93%     | 249,193           | −3.8%       | ×1.06     |
+| Minimalist Math Caveman | **98.43%** | 187,606           | −27.6%      | ×1.32     |
+| Math Caveman            | 97.60%     | 120,022           | −53.7%      | ×2.01     |
+| **Caveman**             | **97.77%** | **103,721**       | **−60.0%**  | **×1.96** |
+| One-Shot (↯ cliff)      | 80.65%     | 72,954            | −71.8%      | —         |
 
-The cliff is sharp: Caveman at −61% tokens maintains full accuracy; One-Shot at −72% collapses 16.8pp.
+The cliff is sharp: Caveman at −60% tokens matches Default accuracy exactly; One-Shot at −72% collapses 17.1pp.
 
 See [article.md](article.md) for full results including the thinking model comparison.
 
@@ -118,7 +118,7 @@ Run `python compare.py` to aggregate all JSON files into `results.csv`.
 ## Reproducibility note
 
 OpenRouter routes requests across multiple providers. Even at temperature=0, non-determinism is observed between runs
-due to provider-level sampling differences. n=1319 (full GSM8K test set) is sufficient to make provider variance
+due to provider-level sampling differences. n=1209 (full GSM8K Platinum test set) is sufficient to make provider variance
 negligible relative to condition differences.
 
 ## Requirements

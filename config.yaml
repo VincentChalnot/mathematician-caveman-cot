@@ -4,8 +4,8 @@ gsm8k_prompt: |
 
 options:
   num_samples: 2000
-  concurrency: 20
-  benchmark: gsm8k
+  concurrency: 100
+  benchmark: gsm8k_platinum.py
 
 tasks:
   - name: No Prompt
